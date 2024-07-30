@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-const Login = () => {
+const Login = ({ setIsLoggedIn }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -19,6 +19,8 @@ const Login = () => {
       email: data.get("email"),
       password: data.get("password"),
     });
+    // Here, you can add logic to verify the login credentials
+    setIsLoggedIn(true);
   };
 
   return (

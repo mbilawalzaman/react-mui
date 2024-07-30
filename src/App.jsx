@@ -1,22 +1,25 @@
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/navbar";
+import NavBar from "./components/navbar";
 import Home from "./pages/home";
-import Contact from "./pages/contact";
 import Login from "./pages/login";
-import Signup from "./pages/singup";
+import ContactUs from "./pages/contact";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <Router>
-      <div className="bg-white min-h-screen">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </div>
+      <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} />
+          }
+        />
+        <Route path="/contact" element={<ContactUs />} />
+      </Routes>
     </Router>
   );
 }
