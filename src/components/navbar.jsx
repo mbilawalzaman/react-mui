@@ -69,6 +69,9 @@ const NavBar = () => {
                 <MenuItem onClick={() => handleMenuItemClick("/contact")}>
                   Contact us
                 </MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick("/questionnaire")}>
+                  Questionnaire
+                </MenuItem>
               </Menu>
             </>
           ) : (
@@ -97,6 +100,22 @@ const NavBar = () => {
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     Contact us
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/questionnaire"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    Questionnaire
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/pdf"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    PDF
                   </Link>
                 </li>
                 {/* Add more navigation links as needed */}
