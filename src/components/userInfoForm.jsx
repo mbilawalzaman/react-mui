@@ -51,6 +51,7 @@ const UserInfoForm = ({ onSubmit }) => {
             fullWidth
             label="Name"
             variant="outlined"
+            type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Name"
@@ -61,6 +62,7 @@ const UserInfoForm = ({ onSubmit }) => {
             fullWidth
             label="Surname"
             variant="outlined"
+            type="text"
             value={surname}
             onChange={(e) => setSurname(e.target.value)}
             placeholder="Surname"

@@ -5,7 +5,6 @@ import PDFGeneration from "./PDFGeneration";
 const Questionnaire = ({ userInfo, setAnswers }) => {
   const [answers, setLocalAnswers] = useState({});
   const [total, setTotal] = useState(0);
-  console.log(userInfo);
 
   useEffect(() => {
     // Auto-save functionality
@@ -16,29 +15,55 @@ const Questionnaire = ({ userInfo, setAnswers }) => {
     return () => clearInterval(autoSave);
   }, [answers]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setLocalAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [name]: value,
-    }));
-  };
-
-  const calculateTotal = () => {
-    console.log("Calculating total with answers:", answers); // Debugging log
-
-    // Add your specific calculation logic here
-    // Convert values to numbers and filter out non-numeric values
-    const sum = Object.values(answers)
+  useEffect(() => {
+    const { field1, field2, textField1, textField2, textField3, textField4 } =
+      answers;
+    const sum = [field1, field2]
       .map((val) => Number(val))
-      .filter((val) => !isNaN(val)) // Only sum valid numbers
+      .filter((val) => !isNaN(val))
       .reduce((acc, val) => acc + val, 0);
 
-    console.log("Calculated sum:", sum); // Debugging log
-
     setTotal(sum);
-    setAnswers({ ...answers, total: sum }); // Update the total in the answers
+    setAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      total: sum,
+    }));
+  }, [
+    answers.field1,
+    answers.field2,
+    answers.textField1,
+    answers.textField2,
+    answers.textField3,
+    answers.textField4,
+  ]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setLocalAnswers((prevAnswers) => {
+      const updatedAnswers = {
+        ...prevAnswers,
+        [name]: value,
+      };
+      setAnswers(updatedAnswers); // Update the parent state as well
+      return updatedAnswers;
+    });
   };
+
+  // const calculateTotal = () => {
+  //   console.log("Calculating total with answers:", answers); // Debugging log
+
+  //   // Add your specific calculation logic here
+  //   // Convert values to numbers and filter out non-numeric values
+  //   const sum = Object.values(answers)
+  //     .map((val) => Number(val))
+  //     .filter((val) => !isNaN(val)) // Only sum valid numbers
+  //     .reduce((acc, val) => acc + val, 0);
+
+  //   console.log("Calculated sum:", sum); // Debugging log
+
+  //   setTotal(sum);
+  //   setAnswers({ ...answers, total: sum }); // Update the total in the answers
+  // };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -84,7 +109,7 @@ const Questionnaire = ({ userInfo, setAnswers }) => {
 
           <div className="text-black m-2">Total: {total}</div>
 
-          <Box mt={2} textAlign="center">
+          {/* <Box mt={2} textAlign="center">
             <Button
               variant="contained"
               color="primary"
@@ -92,7 +117,7 @@ const Questionnaire = ({ userInfo, setAnswers }) => {
             >
               Calculate Total
             </Button>
-          </Box>
+          </Box> */}
 
           {/* Text Fields */}
           <TextField
@@ -145,7 +170,7 @@ const Questionnaire = ({ userInfo, setAnswers }) => {
             backgroundColor="blue"
             variant="contained"
           >
-            <PDFGeneration userInfo={userInfo} answers={{ total }} />
+            <PDFGeneration userInfo={userInfo} answers={answers} />
           </Box>
         </form>
       </Box>
